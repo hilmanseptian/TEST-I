@@ -1,0 +1,42 @@
+Example I
+
+//ignore the classes, they're just illustrations    
+public class RSSClass
+    {
+        public string Title { get; set; } //definition
+        public string PubDate { get; set; }
+    }
+
+
+    void myRSS_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+{
+
+        var rssData = from rss in XElement.Parse(e.Result).Descendants("item")
+
+
+         select new RSSClass
+                    {
+                        Title = rss.Element("title").Value,   //this stores the value in <title/> in the respective string named Title
+                        PubDate = rss.Element("pubDate").Value  //this is also done the same thing 
+                    };
+                    
+                    
+                    
+Exmaple II
+
+#!/bin/bash
+
+RSS_URI="http://rss.detik.com/index.php/hot"
+XPATH_MATCH=/rss/channel/item
+XPATH_VALUE="concat(pubDate,' | ',title,'\n')"
+RSS_DATA="data.xml"
+${channel}
+${pubdate}
+${title}
+${link}
+
+DOWNLOAD_AND_PARSE ()   #Downloads and parses RSS [SKELETON]
+{
+    wget -O RSS_DATA RSS_URI
+    echo -e "$(~/bin/xml sel --net -t -m "$XPATH_MATCH" -v "$XPATH_VALUE" "$RSS_DATA")" | awk -F "|" '{print $1 $2}'   
+}

@@ -1,191 +1,144 @@
-TO test
-=======
+GitHub Markup
+=============
 
-lebih dari test
+We use this library on GitHub when rendering your README or any other
+rich text file.
 
- Web Service
-—Web Services : Merupakan istilah yang mengacu pada aplikasi virtual atau terdistribusi atau proses yang menggunakan internet untuk menghubungkan aktivitas atau komponen perangkat lunak.
-—Web Service merupakan arsitektur komputasi yang terdistribusi. Arsitektur ini  bertujuan  untuk memungkinkan bermacam-macam aplikasi untuk saling komunikasi
+Markups
+-------
 
-Keuntungan yang didapat dalam menggunakan web service adalah semua aplikasi didunia dapat berkomunikasi satu dan lainnya . Komunikasi antar aplikasi ini tidak memiliki batasan tempat, sistem operasi, bahasa pemrograman, protokol dan lain sebagainya.
+The following markups are supported.  The dependencies listed are required if
+you wish to run the library. You can also run `script/bootstrap` to fetch them all.
 
-Untuk berkomunikasi dengan Web Service komputer klien akan
-mengirimkan pesan SOAP yang Mengandung pemanggilan pada  sebuah
-method beserta parameter yang di butuhkan (oleh method tersebut).
-Sebagai tambahan, pesan SOAP dapat juga mengandung sejumlah item
-Header yang menjelaskan kebutuhan klien lebih lanjut. 
+* [.markdown, .mdown, .md](http://daringfireball.net/projects/markdown/) -- `gem install redcarpet` (https://github.com/vmg/redcarpet)
+* [.textile](http://www.textism.com/tools/textile/) -- `gem install RedCloth`
+* [.rdoc](http://rdoc.sourceforge.net/) -- `gem install rdoc -v 3.6.1`
+* [.org](http://orgmode.org/) -- `gem install org-ruby`
+* [.creole](http://wikicreole.org/) -- `gem install creole`
+* [.mediawiki](http://www.mediawiki.org/wiki/Help:Formatting) -- `gem install wikicloth`
+* [.rst](http://docutils.sourceforge.net/rst.html) -- `easy_install docutils`
+* [.asciidoc, .adoc, .asc](http://asciidoc.org/) -- `gem install asciidoctor` (http://asciidoctor.org)
+* [.pod](http://search.cpan.org/dist/perl/pod/perlpod.pod) -- `Pod::Simple::HTML`
+  comes with Perl >= 5.10. Lower versions should install Pod::Simple from CPAN.
 
-arsitektur web service
-—Web service memiliki tiga entitas dalam arsitekturnya, yaitu:
-—1.  Service Requester (peminta layanan)
-—2.  Service Provider (penyedia layanan)
-—3.  Service Registry (daftar layanan)
-—Service Provider: Berfungsi untuk menyediakan layanan/service dan mengolah sebuah registry agar layanan-layanan tersebut dapat tersedia.
-—Service Registry: Berfungsi sebagai lokasi central yang mendeskripsikan semua layanan/service yang telah di-register.
-—Service Requestor: Peminta layanan yang mencari dan menemukan layanan yang dibutuhkan serta menggunakan layanan tersebut.
-operasi-operasi web service
-—Secara umum, web service memiliki tiga operasi yang terlibat di dalamnya, yaitu:
-—Publish/Unpublish: Menerbitkan/menghapus layanan ke dalam atau dari registry.
-—Find: Service requestor mencari dan menemukan layanan yang dibutuhkan.
-—Bind: Service requestor setelah menemukan layanan yang dicarinya, kemudian melakukan binding ke service provider untuk melakukan interaksi dan mengakses layanan/service yang disediakan oleh service provider.
-komponen utama web service
-—SOAP (Simple Object Access Protocol)
-  SOAP merupakan spesifikasi yang mendefenisikan grammar XML untuk pesan yang akan dikirimkan dan juga jawaban dari pesan tersebut. Tujuan dari SOAP adalah untuk mendeskripsikan format sebuah pesan yang tidak bergantung pada perangkat keras dan perangkat lunak apapun, melainkan SOAP dapat membawa pesan dari sebuah platform ke platform lainnya tanpa adanya ambiguitas. SOAP biasanya terdiri dari dua bagian : header yang membawa instruksi pemprosesan dan body yang mengandung informasi yang ingin disampaikan.
-—Extensible Markup Language (XML)— Merupakan bahasa dimana semua web service dibangun. XML merupakan alat untuk membangun dokumen self-describing. Dalam XML kita dapat membuat sendiri tag-tag dan komponen grammar lainnya.Grammar-grammar ini di deskripsikan dalam skema XML (XML schema) yang menentukan tags yang di izinkan (untuk digunakan) dan hubungan antar element yang didefenisikan oleh tags tersebut.
+HTML sanitization
+-----------------
 
-—Hypertext Transport Protocol (HTTP)—
-  Merupakan protokol yang dibangun untuk memfasilitasi pertukaran data dari browser ke web server dan sebaliknya. Web service menggunakan protokol ini untuk memindahkan pesan SOAP dan dokumen WSDL dari satu komputer ke komputer lainnya.
-Web Services Description Language (WSDL)— Merupakan spesifikasi yang menjelaskan sebuah perangkat lunak dalam kaitannya dengan pemanggilan method yang terdapat pada perangkat lunak tersebut. Method ini di deskripsikan dengan cara yang abstrak yang tidak bergantung pada bahasa pemrograman apa service tersebut di buat atau pada komputer dan sistem operasi apa ia berjalan.
-—Universal Discovery Description Integration (UDDI)—UDDI menyediakan framework untuk mendeskripsikan dan menemukan web service yang tersedia di Web. UDDI menyediakan framework ini dengan menggunakan registri service berbasis web yang terdistribusi dan registri tersebut dapat diakses dengan menggunakan SOAP. Sederhanya UDDI merupakan mesin pencarian untuk web service. Semua penyedia web service menggunakan WSDL untuk mendeskripsikan aplikasi SOAP mereka. WSDL  ini kemudian di kirim ke pusat registri UDDI dan informasi ini dapat diakses oleh pencari web service.
-membuat web service menggunakan PHP
-—Library-> nuSOAP
-—nuSOAP, merupakan library yang dibuat dengan bahasa PHP untuk mempermudah proses pembuatan dan juga pengaksesan web service dengan menggunakan bahasa PHP
+HTML rendered by the various markup language processors gets passed through an [HTML sanitization filter](https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/sanitization_filter.rb) for security reasons. HTML elements not in the whitelist are removed. HTML attributes not in the whitelist are removed from the preserved elements.
+
+The following HTML elements, organized by category, are whitelisted:
+
+* Headings: h1, h2, h3, h4, h5, h6, h7, h8
+* Prose: p, div, blockquote
+* Preformatted: pre
+* Inline: b, i, strong, em, tt, code, ins, del, sup, sub, kbd, samp, q, var
+* Lists: ol, ul, li, dl, dt, dd
+* Tables: table, thead, tbody, tfoot, tr, td, th
+* Breaks: br, hr
+* Ruby (East Asian): ruby, rt, rp
+
+The following attributes, organized by element, are whitelisted:
+
+* a: href (http://, https://, mailto://, github-windows:// and github-mac:// URI schemes and relative paths only)
+* img: src (http:// and https::// URI schemes and relative paths only)
+* div: itemscope, itemtype
+* all: abbr, accept, accept-charset, accesskey, action, align, alt, axis, border, cellpadding, cellspacing, char, charoff, charset, checked, cite, clear, cols, colspan, color, compact, coords, datetime, dir, disabled, enctype, for, frame, headers, height, hreflang, hspace, ismap, label, lang, longdesc, maxlength, media, method, multiple, name, nohref, noshade, nowrap, prompt, readonly, rel, rev, rows, rowspan, rules, scope, selected, shape, size, span, start, summary, tabindex, target, title, type, usemap, valign, value, vspace, width, itemprop
+
+Note that the id attribute is *not* whitelisted.
+
+Contributing
+------------
+
+Want to contribute? Great! There are two ways to add markups.
 
 
-BAKA TEST II
-============
+### Commands
+
+If your markup is in a language other than Ruby, drop a translator
+script in `lib/github/commands` which accepts input on STDIN and
+returns HTML on STDOUT. See [rest2html][r2h] for an example.
+
+Once your script is in place, edit `lib/github/markups.rb` and tell
+GitHub Markup about it. Again we look to [rest2html][r2hc] for
+guidance:
+
+    command(:rest2html, /re?st(.txt)?/)
+
+Here we're telling GitHub Markup of the existence of a `rest2html`
+command which should be used for any file ending in `rest`,
+`rst`, `rest.txt` or `rst.txt`. Any regular expression will do.
+
+Finally add your tests. Create a `README.extension` in `test/markups`
+along with a `README.extension.html`. As you may imagine, the
+`README.extension` should be your known input and the
+`README.extension.html` should be the desired output.
+
+Now run the tests: `rake`
+
+If nothing complains, congratulations!
 
 
-Layanan Web adalah sistem software yang didesain untuk mendukung interaksi interoperable mesin-ke-mesin melalui sebuah jaringan. Dalam konteks aplikasi Web, ia biasanya merujuk ke satu set API yang dapat diakses melalui Internet dan menjalankan layanan di hosting sitem remote. Sebagai contoh, klien berbasis-Flex dapat memanggil fungsi yang diimplementasikan pada sisi server yang menjalankan aplikasi berbasis-PHP. Layanan Web bergantung pada SOAP sebagai lapisan dasar tumpukan protokol komunikasinya.
+### Classes
 
-Yii menyediakan CWebService dan CWebServiceAction untuk menyederhanakan pekerjaan implementasi layanan Web dalam aplikasi Web. APIs dikelompokkan ke dalam kelas, disebut service providers. Yii akan membuat sebuah spesifikasi WSDL untuk setiap kelas yang menjelaskan API apa yang bersifat variabel dan bagaimana ia harus dipanggil oleh klien. Ketika sebuah API dipanggil oleh klien, Yii akan menginisiasi penyedia layanan terkait dan memanggil API yang diminta guna memenuhi permintaan.
+If your markup can be translated using a Ruby library, that's
+great. Check out `lib/github/markups.rb` for some
+examples. Let's look at Markdown:
 
-    Catatan: CWebService bergantung pada PHP SOAP extension. Pastikan Anda menghidupkannya sebelum mencoba menampilkan contoh dalam seksi ini.
+    markup(:markdown, /md|mkdn?|markdown/) do |content|
+      Markdown.new(content).to_html
+    end
 
-1. Mendefinisikan Penyedia Layanan
+We give the `markup` method three bits of information: the name of the
+file to `require`, a regular expression for extensions to match, and a
+block to run with unformatted markup which should return HTML.
 
-Seperti sudah disebutkan di atas, penyedia layanan adalah kelas yang mendefinisikan metode yang dapat secara remote (jarak jauh) dipanggil. Yii bergantung pada komentar dokumen dan kelas refleksi dalam mengidentifikasi metode mana yang bisa dipanggil secara remote dan parameter apa serta nilai balik.
+If you need to monkeypatch a RubyGem or something, check out the
+included RDoc example.
 
-Mari kita mulai dengan kutipan layanan stok. Layanan ini mengijinkan klien untuk meminta kutipan stok yang sudah ditetapkan. Kita mendefinisikan penydia layanan sebagai berikut. Catatan bahwa kita mendefinisikan kelas penyedia StockController dengan memperluas CController. Ini tidak diperlukan. Kami akan segera menjelaskan mengapa kita melakukannya.
+Tests should be added in the same manner as described under the
+`Commands` section.
 
-class StockController extends CController
-{
-    /**
-     * @param string the symbol of the stock
-     * @return float the stock price
-     * @soap
-     */
-    public function getPrice($symbol)
-    {
-        $prices=array('IBM'=>100, 'GOOGLE'=>350);
-        return isset($prices[$symbol])?$prices[$symbol]:0;
-        //...return stock price for $symbol
-    }
-}
 
-Dalam contoh di atas, kita mendeklarasikan metode getPrice menjadi API layanan Web, menandainya dengan tag @soap dalam komentar dokumen. Kita bergantung pada komentar dokumen untuk menetapkan jenis data parameter input dan nilai hasil. API tambahan dapat dideklarasikan dengan cara yang sama.
-2. Mendeklarasikan Aksi Layanan Web
+Installation
+-----------
 
-Setelah mendefinisikan penyedia layanan, kita harus membuatnya tersedia bagi klien. Sebenarnya kita ingin membuat aksi controller untuk mengekspos layanan. Ini bisa dilakukan secara mudah dengan mendeklarasikan aksi CWebServiceAction dalam kelas controller. Dalam contoh kita, kita akan memasukkan StockController.
+    gem install github-markup
 
-class StockController extends CController
-{
-    public function actions()
-    {
-        return array(
-            'quote'=>array(
-                'class'=>'CWebServiceAction',
-            ),
-        );
-    }
- 
-    /**
-     * @param string the symbol of the stock
-     * @return float the stock price
-     * @soap
-     */
-    public function getPrice($symbol)
-    {
-        //...kembalikan harga stok untuk simbol $symbol
-    }
-}
 
-test
+Usage
+-----
 
-Selesai, hanya itu yang kita perlukan dalam membuat layanan Web! Jika kita mencoba mengakses aksi dengan URL http://hostname/path/to/index.php?r=stock/quote, kita akan melihat banyak konten XML yang sebenarnya WSDL bagi layanan Web yang kita definisikan.
+    require 'github/markup'
+    GitHub::Markup.render('README.markdown', "* One\n* Two")
 
-    Tip: Secara default, CWebServiceAction menganggap controller saat ini adalah penyedia layanan. Itulah mengapa kita mendefinisikan metode getPrice di dalam kelas StockController.
+Or, more realistically:
 
-3. Menerima Layanan Web
+    require 'github/markup'
+    GitHub::Markup.render(file, File.read(file))
 
-Untuk melengkapi contoh, mari kita buat klien untuk menerima layanan Web yang baru kita buat. Contoh klien ditulis dalam PHP, tapi ia dapat dibuat dalam bahasa lainnya seperti Java, C#, Flex, dll.
 
-$client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
-echo $client->getPrice('GOOGLE');
+Testing
+-------
 
-Jalankan skrip di atas baik dalam Web ataupun mode konsol, dan kita seharusnya melihat 350 yang merupakan harga untuk GOOGLE.
-4. Tipe Data
+To run the tests:
 
-Ketika mendeklarasikan metode kelas dan properti yang akan diakses secara remote, kita harus menetapkan tipe data atas parameter input dan output. Tipe data primitif berikut bisa dipakai:
+    $ rake
 
-    str/string: dipetakan ke xsd:string;
-    int/integer: dipetakan ke xsd:int;
-    float/double: dipetakan ke xsd:float;
-    bool/boolean: dipetakan ke xsd:boolean;
-    date: dipetakan ke xsd:date;
-    time: dipetakan ke xsd:time;
-    datetime: dipetakan ke xsd:dateTime;
-    array: dipetakan ke xsd:string;
-    object: dipetakan ke xsd:struct;
-    mixed: dipetakan ke xsd:anyType.
+To add tests see the `Commands` section earlier in this
+README.
 
-Jika tipe bukan salah satupun dari tipe primitif di atas, ia dianggap sebagai tipe composite yang terdiri dari properti. Tipe composite disajikan dalam batasan kelas, dan propertinya adalah variabel anggota public kelas yang ditandai dengan @soap dalam komentar dokumennya.
 
-Kita juga bisa menggunakan tipe array dengan menambahkan [] di akhir tipe primitif atau tipe composite. Ini akan menetapkan sebuah array pada tipe yang sudah ditetapkan tersebut.
+Contributing
+------------
 
-Di bawah ini adalah contoh mendefinisikan Web API getPosts Web API yang menghasilkan array obyek Post.
+1. Fork it.
+2. Create a branch (`git checkout -b my_markup`)
+3. Commit your changes (`git commit -am "Added Snarkdown"`)
+4. Push to the branch (`git push origin my_markup`)
+5. Open a [Pull Request][1]
+6. Enjoy a refreshing Diet Coke and wait
 
-class PostController extends CController
-{
-    /**
-     * @return Post[] a list of posts
-     * @soap
-     */
-    public function getPosts()
-    {
-        return Post::model()->findAll();
-    }
-}
- 
-class Post extends CActiveRecord
-{
-    /**
-     * @var integer post ID
-     * @soap
-     */
-    public $id;
-    /**
-     * @var string post title
-     * @soap
-     */
-    public $title;
- 
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-}
 
-5. Pemetaan Kelas
-
-Agar bisa menerima parameter tipe composite dari klien, aplikasi harus mendeklarasikan pemetaan dari tipe WSDL ke kelas PHP terkait. Ini dilakukan dengan mengkonfigurasi properti classMap pada CWebServiceAction.
-
-class PostController extends CController
-{
-    public function actions()
-    {
-        return array(
-            'service'=>array(
-                'class'=>'CWebServiceAction',
-                'classMap'=>array(
-                    'Post'=>'Post',  // atau cukup 'Post'
-                ),
-            ),
-        );
-    }
-    ......
-}
-
-6. Mengintersepsi Penyertaan Metode Remote
-
-Dengan mengimplementasi antar muka IWebServiceProvider, penyedia layanan bisa mengintersepsi penyertaan metode jarak jauh. Dalam IWebServiceProvider::beforeWebMethod, penyedia bisa mengambil instance CWebService saat ini dan mendapatkan nama metode yang saat ini sedang dipakai via CWebService::methodName. Ini dapat menghasilkan false jika metode remote seharusnya tidak dipanggil untuk beberapa alasan (misalnya akses tidak diotorisasi).
+[r2h]: lib/github/commands/rest2html
+[r2hc]: lib/github/markups.rb#L51
+[1]: http://github.com/github/markup/pulls

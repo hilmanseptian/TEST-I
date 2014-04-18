@@ -100,6 +100,8 @@ class StockController extends CController
     }
 }
 
+test
+
 Selesai, hanya itu yang kita perlukan dalam membuat layanan Web! Jika kita mencoba mengakses aksi dengan URL http://hostname/path/to/index.php?r=stock/quote, kita akan melihat banyak konten XML yang sebenarnya WSDL bagi layanan Web yang kita definisikan.
 
     Tip: Secara default, CWebServiceAction menganggap controller saat ini adalah penyedia layanan. Itulah mengapa kita mendefinisikan metode getPrice di dalam kelas StockController.

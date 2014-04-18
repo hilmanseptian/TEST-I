@@ -1,6 +1,7 @@
 Untuk test pertama masukan NAMA dan NPM masing-masing
 =====================================================
 
+create
 
 Hilman Septian    117006135
 Gilang Agtian     117006121
@@ -8,4 +9,4 @@ Budi Permana      117006103
 
 
 
-end
+end 
